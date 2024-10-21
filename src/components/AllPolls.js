@@ -66,6 +66,8 @@ const AllPolls = () => {
     //     socketRef.current.disconnect();
     //   }
     // };
+    
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
