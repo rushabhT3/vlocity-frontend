@@ -16,7 +16,7 @@ const AllPolls = () => {
   const [polls, setPolls] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const socketRef = useRef(null);
+  // const socketRef = useRef(null);
 
   const fetchPolls = useCallback(async () => {
     setLoading(true);
