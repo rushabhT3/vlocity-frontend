@@ -16,6 +16,18 @@ const CommentSection = ({ pollId }) => {
   const [error, setError] = useState(null);
   const socketRef = useRef(null);
 
+  const fetchComments = useCallback(async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_BACKEND_URL}/api/comments/poll/${pollId}`
+      );
+      setComments(response.data);
+    } catch (err) {
+      setError("Failed to fetch comments");
+      console.error("Error fetching comments:", err);
+    }
+  }, [pollId]);
+
   useEffect(() => {
     fetchComments();
 
@@ -43,18 +55,6 @@ const CommentSection = ({ pollId }) => {
   const handleNewComment = (newComment) => {
     setComments((prevComments) => [newComment, ...prevComments]);
   };
-
-  const fetchComments = useCallback(async () => {
-    try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_BACKEND_URL}/api/comments/poll/${pollId}`
-      );
-      setComments(response.data);
-    } catch (err) {
-      setError("Failed to fetch comments");
-      console.error("Error fetching comments:", err);
-    }
-  }, [pollId]);
 
   const submitComment = async () => {
     try {

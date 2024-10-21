@@ -21,6 +21,26 @@ const PollDetails = () => {
   const { id } = useParams();
   const socketRef = useRef(null);
 
+  const fetchPoll = useCallback(async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get(
+        `${process.env.REACT_APP_BACKEND_URL}/api/polls/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setPoll(response.data);
+      setLoading(false);
+    } catch (err) {
+      setError("Failed to fetch poll details. Please try again.");
+      setLoading(false);
+      console.error("Error fetching poll details:", err);
+    }
+  }, [id]);
+
   useEffect(() => {
     fetchPoll();
 
@@ -44,26 +64,6 @@ const PollDetails = () => {
       }
     };
   }, [id, fetchPoll]);
-
-  const fetchPoll = useCallback(async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const response = await axios.get(
-        `${process.env.REACT_APP_BACKEND_URL}/api/polls/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setPoll(response.data);
-      setLoading(false);
-    } catch (err) {
-      setError("Failed to fetch poll details. Please try again.");
-      setLoading(false);
-      console.error("Error fetching poll details:", err);
-    }
-  }, [id]);
 
   const handlePollUpdate = (updatedPoll) => {
     console.log("Received updated poll:", updatedPoll);
