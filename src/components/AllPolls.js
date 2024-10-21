@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import io from "socket.io-client";
+// import io from "socket.io-client";
 
 const AllPolls = () => {
   const [polls, setPolls] = useState([]);
