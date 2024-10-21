@@ -66,7 +66,7 @@ const AllPolls = () => {
     //     socketRef.current.disconnect();
     //   }
     // };
-  });
+  }, []);
 
   return (
     <Container>
