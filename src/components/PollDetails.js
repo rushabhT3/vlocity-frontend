@@ -43,9 +43,9 @@ const PollDetails = () => {
         socketRef.current.disconnect();
       }
     };
-  }, [id]);
+  }, [id, fetchPoll]);
 
-  const fetchPoll = async () => {
+  const fetchPoll = useCallback(async () => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.get(
@@ -63,7 +63,7 @@ const PollDetails = () => {
       setLoading(false);
       console.error("Error fetching poll details:", err);
     }
-  };
+  }, [id]);
 
   const handlePollUpdate = (updatedPoll) => {
     console.log("Received updated poll:", updatedPoll);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   TextField,
   Button,
@@ -38,13 +38,13 @@ const CommentSection = ({ pollId }) => {
         socketRef.current.disconnect();
       }
     };
-  }, [pollId]);
+  }, [pollId, fetchComments]);
 
   const handleNewComment = (newComment) => {
     setComments((prevComments) => [newComment, ...prevComments]);
   };
 
-  const fetchComments = async () => {
+  const fetchComments = useCallback(async () => {
     try {
       const response = await axios.get(
         `${process.env.REACT_APP_BACKEND_URL}/api/comments/poll/${pollId}`
@@ -54,7 +54,7 @@ const CommentSection = ({ pollId }) => {
       setError("Failed to fetch comments");
       console.error("Error fetching comments:", err);
     }
-  };
+  }, [pollId]);
 
   const submitComment = async () => {
     try {
@@ -64,7 +64,7 @@ const CommentSection = ({ pollId }) => {
         setError("You must be logged in to post a comment");
         return;
       }
-      const response = await axios.post(
+      await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}/api/comments`,
         { text: newComment, pollId },
         {
@@ -72,7 +72,7 @@ const CommentSection = ({ pollId }) => {
             Authorization: `Bearer ${token}`,
           },
         }
-      );
+      );      
       setNewComment("");
       // The server will emit the new comment, so we don't need to add it manually
     } catch (err) {
