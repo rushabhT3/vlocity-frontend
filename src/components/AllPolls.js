@@ -43,29 +43,29 @@ const AllPolls = () => {
   useEffect(() => {
     fetchPolls();
 
-    socketRef.current = io(process.env.REACT_APP_BACKEND_URL, {
-      transports: ["websocket"],
-      upgrade: false,
-    });
+    // socketRef.current = io(process.env.REACT_APP_BACKEND_URL, {
+    //   transports: ["websocket"],
+    //   upgrade: false,
+    // });
 
-    socketRef.current.on("connect", () => {
-      console.log("Connected to Socket.IO server for all polls");
-    });
+    // socketRef.current.on("connect", () => {
+    //   console.log("Connected to Socket.IO server for all polls");
+    // });
 
-    socketRef.current.on("newPollCreated", (newPoll) => {
-      console.log("New poll received:", newPoll);
-      setPolls((prevPolls) => [newPoll, ...prevPolls]);
-    });
+    // socketRef.current.on("newPollCreated", (newPoll) => {
+    //   console.log("New poll received:", newPoll);
+    //   setPolls((prevPolls) => [newPoll, ...prevPolls]);
+    // });
 
-    socketRef.current.on("connect_error", (error) => {
-      console.error("Socket connection error:", error);
-    });
+    // socketRef.current.on("connect_error", (error) => {
+    //   console.error("Socket connection error:", error);
+    // });
 
-    return () => {
-      if (socketRef.current) {
-        socketRef.current.disconnect();
-      }
-    };
+    // return () => {
+    //   if (socketRef.current) {
+    //     socketRef.current.disconnect();
+    //   }
+    // };
   });
 
   return (
